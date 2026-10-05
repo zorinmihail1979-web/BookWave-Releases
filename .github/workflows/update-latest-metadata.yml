@@ -1,0 +1,73 @@
+name: Refresh updater metadata
+
+on:
+  release:
+    types: [published, released, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build latest.json from Release
+        env:
+          EVENT_PATH: ${{ github.event_path }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          event = json.loads(Path(os.environ["EVENT_PATH"]).read_text(encoding="utf-8"))
+          release = event["release"]
+          if release.get("draft") or release.get("prerelease"):
+              raise SystemExit("Skip draft/prerelease metadata")
+
+          body = release.get("body") or ""
+          version_code_match = re.search(r"(?im)versionCode\s*[:=]\s*(\d+)", body)
+          version_name_match = re.search(r"(?im)versionName\s*[:=]\s*([^\r\n]+)", body)
+          if not version_code_match:
+              raise SystemExit("Release body has no versionCode")
+          version_code = int(version_code_match.group(1))
+          version_name = version_name_match.group(1).strip() if version_name_match else ""
+
+          assets = release.get("assets") or []
+          apk = next((a for a in assets if (a.get("name") or "").lower() == "bookwave.apk"), None)
+          if apk is None:
+              apk = next((a for a in assets if (a.get("name") or "").lower().endswith(".apk")), None)
+          if apk is None:
+              raise SystemExit("Release has no APK asset")
+
+          digest = apk.get("digest") or ""
+          sha256 = digest.removeprefix("sha256:") if digest.startswith("sha256:") else None
+          metadata = {
+              "tag": release.get("tag_name") or "",
+              "title": release.get("name") or "BookWave",
+              "versionCode": version_code,
+              "versionName": version_name,
+              "notes": body,
+              "apkUrl": apk.get("browser_download_url") or "",
+              "apkSize": int(apk.get("size") or -1),
+              "sha256": sha256,
+          }
+          Path("latest.json").write_text(
+              json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Commit metadata
+        run: |
+          if git diff --quiet -- latest.json; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.json
+          git commit -m "Update latest release metadata"
+          git push
