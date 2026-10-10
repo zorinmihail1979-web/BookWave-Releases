@@ -1,10 +1,10 @@
 {
-  "tag": "fix93b",
-  "title": "BookWave Fix93b — Sources, Queue & Series",
-  "versionCode": 400,
-  "versionName": "1.0.0-beta01-fix93b-source-architecture",
-  "notes": "BookWave Fix93b\r\n\r\n• «Слушать следующим» теперь имеет приоритет после окончания текущей книги.\r\n• Добавлена настройка порядка: «Очередь → цикл», «Цикл → очередь» или «Только очередь».\r\n• Исправлены отметка «Скачано» и начальная сортировка книг внутри циклов.\r\n• Добавлен переключатель скрытия кнопки скорости в плеере.\r\n• Lis10Book переведён на API сайта для каталога, поиска, данных книги и глав.\r\n• Улучшена загрузка карточек Отруб и Книгоблуд и исправлена их потеря из-за объединения дублей.\r\n• Добавлена защита от устаревшего latest.json при проверке обновлений.\r\n\r\nversionCode: 400\r\nversionName: 1.0.0-beta01-fix93b-source-architecture",
-  "apkUrl": "https://github.com/zorinmihail1979-web/BookWave-Releases/releases/download/fix93b/BookWave.apk",
-  "apkSize": 76858160,
-  "sha256": "78908c7a9323afb85d6c5ce636ebdb31032812c0d66d01db7d8708a749f94694"
+  "tag": "fix93c",
+  "title": "BookWave Fix93c — Offline Library & Listen Next",
+  "versionCode": 401,
+  "versionName": "1.0.0-beta01-fix93c-offline-queue-polish",
+  "notes": "BookWave Fix93c\r\n\r\n• Большая офлайн-библиотека больше не прерывает пересканирование при переходе между вкладками.\r\n• Незавершённый или отменённый перескан больше не считается успешно завершённым.\r\n• Исправлена ситуация, когда старые книги могли оставаться в разделе «Скачано» из-за незаконченного пересканирования.\r\n• В разделе «Слушаю» теперь явно отображается очередь «Слушать следующим» с реальным количеством книг.\r\n• Очередь воспроизведения больше не приходится искать среди полок.\r\n\r\nversionCode: 401\r\nversionName: 1.0.0-beta01-fix93c-offline-queue-polish",
+  "apkUrl": "https://github.com/zorinmihail1979-web/BookWave-Releases/releases/download/fix93c/BookWave.apk",
+  "apkSize": 76858176,
+  "sha256": "b2cb5b31e89a13b8c49bf43aed52ccb10d9278258e0ef203f25c08547e89e4f3"
 }
