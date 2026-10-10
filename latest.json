@@ -1,10 +1,10 @@
 {
-  "tag": "fix93",
-  "title": "BookWave Fix93 — Tester Feedback",
-  "versionCode": 397,
-  "versionName": "1.0.0-beta01-fix93-tester-feedback",
-  "notes": "BookWave Fix93 — Tester Feedback\r\n\r\n• Исправлен перенос позиции при автоматической смене источника.\r\n• Исправлено обновление раздела «Скачано»: при открытии вкладки выполняется реальный перескан выбранной папки.\r\n• Сохраняются сортировка, направление и группировка библиотеки после повторного входа.\r\n• Добавлен внутренний центр уведомлений BookWave с колокольчиком и счётчиком непрочитанных событий.\r\n• Для подписок Follow можно выбрать полку для автоматического добавления новых книг без дублей.\r\n• Кнопка скорости 1.0× стала более плоской и компактной.\r\n\r\nversionCode: 397\r\nversionName: 1.0.0-beta01-fix93-tester-feedback",
-  "apkUrl": "https://github.com/zorinmihail1979-web/BookWave-Releases/releases/download/fix93/BookWave.apk",
-  "apkSize": 76841776,
-  "sha256": "fae877ba956f731e84a64ea774b1a60e849a87aac27448ebf91c4a11a08df643"
+  "tag": "fix93b",
+  "title": "BookWave Fix93b — Sources, Queue & Series",
+  "versionCode": 400,
+  "versionName": "1.0.0-beta01-fix93b-source-architecture",
+  "notes": "BookWave Fix93b\r\n\r\n• «Слушать следующим» теперь имеет приоритет после окончания текущей книги.\r\n• Добавлена настройка порядка: «Очередь → цикл», «Цикл → очередь» или «Только очередь».\r\n• Исправлены отметка «Скачано» и начальная сортировка книг внутри циклов.\r\n• Добавлен переключатель скрытия кнопки скорости в плеере.\r\n• Lis10Book переведён на API сайта для каталога, поиска, данных книги и глав.\r\n• Улучшена загрузка карточек Отруб и Книгоблуд и исправлена их потеря из-за объединения дублей.\r\n• Добавлена защита от устаревшего latest.json при проверке обновлений.\r\n\r\nversionCode: 400\r\nversionName: 1.0.0-beta01-fix93b-source-architecture",
+  "apkUrl": "https://github.com/zorinmihail1979-web/BookWave-Releases/releases/download/fix93b/BookWave.apk",
+  "apkSize": 76858160,
+  "sha256": "78908c7a9323afb85d6c5ce636ebdb31032812c0d66d01db7d8708a749f94694"
 }
