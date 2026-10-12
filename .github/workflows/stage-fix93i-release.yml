@@ -1,0 +1,32 @@
+name: Stage Fix93i draft release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/stage-fix93i-release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare draft release with tester notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if gh release view fix93i >/dev/null 2>&1; then
+            echo "Fix93i release already exists; leave it unchanged."
+          else
+            gh release create fix93i \
+              --draft \
+              --target main \
+              --title "BookWave Fix93i — Поиск, жанры, прокрутка и уведомления" \
+              --notes-file RELEASE_NOTES_FIX93I.md
+          fi
+          echo "A signed BookWave.apk must be uploaded manually before publishing."
