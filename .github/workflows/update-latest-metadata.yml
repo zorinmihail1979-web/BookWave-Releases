@@ -1,8 +1,10 @@
 name: Refresh updater metadata
 
 on:
+  # Run once when the release becomes public; edits to an existing release
+  # must not spend another runner session.
   release:
-    types: [published, released, edited]
+    types: [published]
 
 permissions:
   contents: write
