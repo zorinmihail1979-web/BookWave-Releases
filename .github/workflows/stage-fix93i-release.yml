@@ -1,4 +1,4 @@
-name: Stage Fix93i draft release
+name: Update Fix93i draft release description
 
 on:
   workflow_dispatch:
@@ -15,18 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare draft release with tester notes
+      - name: Apply updated tester-friendly release notes
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          if gh release view fix93i >/dev/null 2>&1; then
-            echo "Fix93i release already exists; leave it unchanged."
-          else
-            gh release create fix93i \
-              --draft \
-              --target main \
-              --title "BookWave Fix93i — Поиск, жанры, прокрутка и уведомления" \
-              --notes-file RELEASE_NOTES_FIX93I.md
-          fi
-          echo "A signed BookWave.apk must be uploaded manually before publishing."
+          # Edit the existing draft without replacing/deleting its APK asset.
+          gh release edit fix93i \
+            --title "BookWave Fix93i — Обновление ленты и уведомлений" \
+            --notes-file RELEASE_NOTES_FIX93I.md
+          gh release view fix93i --json name,isDraft,assets \
+            --jq '{name: .name, draft: .isDraft, assets: [.assets[].name]}'
