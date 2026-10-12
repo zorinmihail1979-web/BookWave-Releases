@@ -1,0 +1,33 @@
+name: Publish BookWave Fix93i (one-time)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-fix93i-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify signed APK and publish prepared release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          RELEASE_ID=410949966
+          VERSION_CODE=407
+          EXPECTED_SIZE=76891012
+          EXPECTED_DIGEST=sha256:a347aeedcf9bb78f576ff5913e5c423ee005d1ad56489eb0ad69247d5f3080cb
+          release="$(gh api "repos/$GH_REPO/releases/$RELEASE_ID")"
+          echo "$release" | jq -e --arg tag fix93i '.tag_name == $tag and .draft == true and .prerelease == false' >/dev/null
+          echo "$release" | jq -e --arg code "versionCode: $VERSION_CODE" '.body | contains($code)' >/dev/null
+          echo "$release" | jq -e --argjson size "$EXPECTED_SIZE" --arg digest "$EXPECTED_DIGEST" '.assets | any(.name == "BookWave.apk" and .size == $size and .digest == $digest)' >/dev/null
+          gh release edit fix93i --draft=false
+          gh api "repos/$GH_REPO/releases/$RELEASE_ID" --jq '{tag_name,draft,prerelease,html_url,assets:[.assets[].name]}'
