@@ -1,10 +1,10 @@
 {
-  "tag": "fix93d",
-  "title": "BookWave Fix93d — Shelves & Scroll Stability",
-  "versionCode": 402,
-  "versionName": "1.0.0-beta01-fix93d-shelves-scroll-stability",
-  "notes": "BookWave Fix93d\r\n\r\n• Ускорены Полки при большой локальной библиотеке: статус скачивания больше не перебирает все загруженные книги для каждой карточки.\r\n• Добавлен быстрый in-memory индекс скачанных книг.\r\n• Удалённые обложки на полках загружаются после первого кадра и не должны задерживать открытие полки.\r\n• Стабилизирована прокрутка главной ленты: верхняя панель больше не меняет высоту списка во время жеста.\r\n• Фоновые порции каталога применяются после короткого периода покоя, а не между быстрыми свайпами.\r\n\r\nversionCode: 402\r\nversionName: 1.0.0-beta01-fix93d-shelves-scroll-stability",
-  "apkUrl": "https://github.com/zorinmihail1979-web/BookWave-Releases/releases/download/fix93d/BookWave.apk",
-  "apkSize": 76858176,
-  "sha256": "617efb81d7e36b99a2f1acf8c7b87836328f725eec58a1228b5eaec2bf004024"
+  "tag": "fix93h",
+  "title": "BookWave Fix93h — Player, Cards & Scrolling Update",
+  "versionCode": 406,
+  "versionName": "1.0.0-beta01-fix93h-akniga-session-resumption",
+  "notes": "BookWave Fix93h\n\n• Исправлен прогресс и переключение логических глав Akniga в непрерывном HLS-потоке.\n• Доработано восстановление управления плеером из шторки Android после длительной паузы.\n• Улучшено дополнение данных карточек книг: автор, чтец, жанр, длительность и обложка.\n• Улучшены обложки BazaKnig, оформление жанра Lis10Book и прокрутка главной ленты.\n\nversionCode: 406\nversionName: 1.0.0-beta01-fix93h-akniga-session-resumption",
+  "apkUrl": "https://github.com/zorinmihail1979-web/BookWave-Releases/releases/download/fix93h/BookWave.apk",
+  "apkSize": 76874640,
+  "sha256": "41a8f48183dbc2e0df8324af7d9e5e9ae3e1f28fe36403dbf624f40aff8cb293"
 }
