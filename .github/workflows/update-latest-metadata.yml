@@ -33,12 +33,24 @@ jobs:
               raise SystemExit("Skip draft/prerelease metadata")
 
           body = release.get("body") or ""
-          version_code_match = re.search(r"(?im)versionCode\s*[:=]\s*(\d+)", body)
-          version_name_match = re.search(r"(?im)versionName\s*[:=]\s*([^\r\n]+)", body)
-          if not version_code_match:
+          # Support Markdown release notes: **versionCode:** 415 and
+          # **versionName:** `1.0.0-beta01-fix93q-...` in addition to plain text.
+          normalized = body.replace("**", "").replace("`", "")
+          version_codes = re.findall(r"(?im)^\s*(?:[-*]\s*)?versionCode\s*[:=]\s*(\d+)\b", normalized)
+          version_names = re.findall(r"(?im)^\s*(?:[-*]\s*)?versionName\s*[:=]\s*([^\r\n]+)", normalized)
+          if not version_codes:
               raise SystemExit("Release body has no versionCode")
-          version_code = int(version_code_match.group(1))
-          version_name = version_name_match.group(1).strip() if version_name_match else ""
+          version_code = int(version_codes[-1])
+          version_name = version_names[-1].strip() if version_names else ""
+
+          current_metadata = Path("latest.json")
+          if current_metadata.exists():
+              try:
+                  previous_code = int(json.loads(current_metadata.read_text(encoding="utf-8")).get("versionCode") or 0)
+              except (ValueError, TypeError, json.JSONDecodeError):
+                  previous_code = 0
+              if version_code < previous_code:
+                  raise SystemExit(0)
 
           assets = release.get("assets") or []
           apk = next((a for a in assets if (a.get("name") or "").lower() == "bookwave.apk"), None)
