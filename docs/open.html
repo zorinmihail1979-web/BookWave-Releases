@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<title>BookWave — где открыть?</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Roboto,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(145deg,#062832,#09131f);color:#f4f9fc}
+main{width:min(100%,440px);background:#102632;border:1px solid #35515a;border-radius:22px;padding:28px 24px;box-shadow:0 12px 44px #0006}
+.brand{color:#38d5d2;font-weight:800;letter-spacing:.08em;margin-bottom:18px}
+h1{font-size:1.65rem;line-height:1.2;margin:0 0 12px}
+p{color:#c5d4d9;line-height:1.5;margin:0 0 18px}
+.host{display:block;color:#94afb7;font-size:.84rem;overflow-wrap:anywhere;margin:0 0 16px}
+.action{display:flex;align-items:center;justify-content:center;text-align:center;min-height:55px;padding:12px;border-radius:13px;text-decoration:none;font-weight:750;font-size:1.05rem;margin:12px 0}
+.primary{background:#2bd1cf;color:#082027}.secondary{border:1px solid #658b96;background:#193640;color:white}
+.action:focus-visible{outline:3px solid white;outline-offset:3px}
+.note{font-size:.85rem;line-height:1.55;color:#a5bec5;margin-top:20px}.note a{color:#6ee2df}
+.error{border:1px solid #9e6256;background:#422822;color:#ffe2d6;border-radius:10px;padding:14px}
+footer{font-size:.76rem;color:#8baab0;text-align:center;margin-top:22px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body><main>
+<div class="brand">≈ BOOKWAVE</div>
+<section id="choices" hidden>
+<h1 id="title">Где открыть?</h1>
+<p>Выберите приложение для прослушивания или просмотра.</p>
+<span class="host" id="hostname"></span>
+<a id="bw" class="action primary" href="#">Открыть в BookWave</a>
+<a id="site" class="action secondary" href="#">Открыть в YouTube</a>
+<div class="note">Если Telegram не открывает BookWave, используйте «Открыть в браузере». Если приложение не установлено, <a href="https://github.com/zorinmihail1979-web/BookWave-Releases/releases/latest" rel="noreferrer">скачайте BookWave с GitHub</a>.</div>
+</section>
+<section id="invalid" hidden><h1>Ссылка недоступна</h1><p class="error">Это не ссылка на поддерживаемую книгу, запись, канал или плейлист.</p></section>
+<footer>Ссылки ведут на оригинальные страницы. Без регистрации.</footer>
+</main>
+<script>
+(function(){
+'use strict';
+var yt=new Set(['youtube.com','music.youtube.com','youtu.be','youtube-nocookie.com']);
+var sites=new Set(['knigavuhe.org','izib.uk','pda.izib.uk','lis10book.com','uknig.com','poleknig.com','audioknigivse.ru','otrub.in','knigoblud.club','mob.knigoblud.club','akniga.org','slushkinvsem.ru','audioboo.org','audioknigi.pro','baza-knig.top','audiopolka.club','audioknigi.top']);
+var raw=new URLSearchParams(location.search).get('url'), target=null, kind='book';
+if(raw&&raw.length<=2048){try{
+var uri=new URL(raw),originalHost=uri.hostname.toLowerCase().replace(/^www\./,''),host=originalHost.replace(/^m\./,''),path=uri.pathname,id='';
+if(yt.has(host)){
+if(host==='youtu.be')id=path.slice(1).split('/')[0];
+else if(path==='/watch')id=uri.searchParams.get('v')||'';
+else if(/^\/(shorts|live|embed)\//.test(path))id=path.split('/')[2]||'';
+if(/^[A-Za-z0-9_-]{11}$/.test(id)){target='https://www.youtube.com/watch?v='+id;kind='video';}
+else if(host==='youtube.com'&&path==='/playlist'&&/^[A-Za-z0-9_-]{5,150}$/.test(uri.searchParams.get('list')||'')){target=uri.href;kind='playlist';}
+else if(host==='youtube.com'&&path.length>=3&&path.length<=250&&!path.includes('..')&&(/^\/@/.test(path)||/^\/(channel|user|c)\//.test(path))){target=uri.href;kind='channel';}
+}else if(sites.has(originalHost)&&!/\.(mp3|mp4|m4a|m4b|aac|ogg|opus|flac|webm|wav|m3u8?|pls)$/i.test(path)){target=uri.href;}
+if(uri.protocol!=='https:'||uri.port||uri.username||uri.password||raw.includes('\n')||raw.includes('\r'))target=null;
+}catch(e){target=null;}}
+if(!target){document.getElementById('invalid').hidden=false;return;}
+var isYoutube=kind!=='book';
+document.getElementById('title').textContent=kind==='channel'?'Открыть YouTube-канал':kind==='playlist'?'Открыть плейлист':kind==='video'?'Где открыть запись?':'Где открыть книгу?';
+document.getElementById('hostname').textContent=new URL(target).hostname;
+document.getElementById('bw').href='bookwave://open?url='+encodeURIComponent(target);
+var original=document.getElementById('site');original.href=target;
+original.textContent=isYoutube?'Открыть в YouTube':'Открыть на сайте источника';
+document.getElementById('choices').hidden=false;
+})();
+</script></body></html>
